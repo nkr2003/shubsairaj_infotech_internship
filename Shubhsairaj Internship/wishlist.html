@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Wishlist - New Bharat Footwear</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #1e4063;
+            color: #fff;
+        }
+
+        .card {
+            background-color: #2c536a;
+            color: white;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .wishlist-item {
+            margin-bottom: 20px;
+        }
+
+        .empty-message {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4 text-end">
+        <a style="text-decoration: none; color: white;" href="index.html"><button
+                class="btn btn-danger">Back</button></a>
+    </div>
+    <div class="container mt-5">
+        <h2>Your Wishlist</h2>
+        <div class="row" id="wishlistItems"></div>
+        <p id="emptyMessage" class="empty-message"></p>
+    </div>
+
+    <!-- JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz4fnFO9gybBZn5J2erMfMX6fYzg7BdomV27EKPF4l0eXjjkz5zs0ajpGc"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGuktpGsORN7LgfW4lAZGJerl4O3oBtKLDzZqqIVT8S4GFsyjH55z0I2Hrt"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to load wishlist items from localStorage and display them
+            function loadWishlist() {
+                let wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+                const wishlistContainer = $('#wishlistItems');
+                wishlistContainer.empty();
+
+                if (wishlistItems.length === 0) {
+                    $('#emptyMessage').text('Your wishlist is currently empty.');
+                } else {
+                    $('#emptyMessage').text(''); // Clear the message if there are items
+                    wishlistItems.forEach(item => {
+                        wishlistContainer.append(`
+                            <div class="col-lg-4 col-md-6 wishlist-item">
+                                <div class="card">
+                                    <img src="${item.image}" class="card-img-top" alt="${item.name}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${item.name}</h5>
+                                        <p class="card-text">₹${item.price}</p>
+                                        <button class="btn btn-primary add-to-cart" data-product-name="${item.name}" data-product-price="${item.price}" data-product-image="${item.image}">Add to Cart</button>
+                                        <button class="btn btn-danger remove-from-wishlist">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+                }
+            }
+
+            // Load wishlist when the page is ready
+            loadWishlist();
+
+            // Add to Cart functionality
+            $(document).ready(function () {
+                // Add to Cart functionality
+                $(document).on('click', '.add-to-cart', function () {
+                    const productName = $(this).data('product-name');
+                    const productPrice = parseInt($(this).data('product-price'), 10);
+                    const productImage = $(this).data('product-image');
+
+                    // Retrieve cart items or initialize as an empty array
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                    // Check if the item already exists in the cart
+                    const existingItemIndex = cartItems.findIndex(item => item.name === productName);
+
+                    if (existingItemIndex > -1) {
+                        // If item exists, increase the quantity
+                        cartItems[existingItemIndex].quantity += 1;
+                    } else {
+                        // Otherwise, add new item to cart
+                        cartItems.push({ name: productName, price: productPrice, image: productImage, quantity: 1 });
+                    }
+
+                    // Store updated cart in localStorage
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+                    alert(`${productName} has been added to your cart!`);
+                });
+            });
+
+
+            // Remove from Wishlist functionality
+            $(document).on('click', '.remove-from-wishlist', function () {
+                const productName = $(this).closest('.card-body').find('.card-title').text().trim();
+
+                // Retrieve wishlist items from localStorage
+                let wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+
+                // Find the index of the item in the wishlist
+                const itemIndex = wishlistItems.findIndex(item => item.name === productName);
+
+                if (itemIndex > -1) {
+                    // Remove the item from the wishlist array
+                    wishlistItems.splice(itemIndex, 1);
+
+                    // Update localStorage
+                    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+
+                    // Reload wishlist
+                    loadWishlist();
+
+                    alert(`${productName} has been removed from your wishlist.`);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
