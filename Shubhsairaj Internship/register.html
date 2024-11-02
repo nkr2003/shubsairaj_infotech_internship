@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - New Bharat Footwear</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #1e4063;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .message-box {
+            display: none;
+            background-color: #ffdddd;
+            color: #8b0000;
+            padding: 10px;
+            margin-top: 10px;
+            border-left: 6px solid #8b0000;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container login-container mt-5">
+        <h2 class="text-center">Registration</h2>
+        <div class="col-md-6 col-sm-12 col-lg-12">
+            <form id="signInForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" placeholder="What should we call you?"
+                        onblur="f2()" required>
+                </div><br>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="phone" placeholder="Mobile" maxlength="10" onblur="f2()"
+                        required>
+                </div><br>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" placeholder="Email" onblur="f2()" required>
+                </div><br>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" placeholder="Password" onblur="f2()"
+                        required>
+                </div><br>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password"
+                        onblur="f2()" required>
+                </div><br>
+                <button type="submit" class="btn btn-primary" id="qw5" style="width: 100%;">Register</button>
+            </form>
+        </div>
+        <div id="messageBox" class="message-box"></div>
+        <div class="text-center mt-3">
+            <p>Thank you for your patience during this time.</p>
+        </div>
+    </div>
+
+    <!-- Load jQuery before your script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function f2() {
+            let temp0 = $('#phone');
+            let temp_name = $("#name");
+            let temp = $("#email");
+            let temp1 = $("#password");
+            let temp2 = $("#confirmPassword");
+            let messageBox = $("#messageBox");
+            let regx = /^[a-zA-Z]+(\s+[a-zA-Z]+)*\.?$/; // Name regex
+            let regEx_num = /^\d+$/; // Number regex
+            let regEx = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/; // Email regex
+            let regEx1 = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\S+$).{8,20}$/; // Password regex
+
+            // Clear previous messages
+            messageBox.hide();
+            if (temp_name.val() === "") {
+                messageBox.text("Please let us know what to call you.").show();
+                return false;
+            }
+            if (!regx.test(temp_name.val())) {
+                messageBox.text("Use letters only for the name.").show();
+                return false;
+            }
+            if (temp0.val() === "") {
+                messageBox.text("Enter the Mobile Number").show();
+                return false;
+            }
+            if (!regEx_num.test(temp0.val()) || temp0.val().length != 10) {
+                messageBox.text("Please double-check your mobile number.").show();
+                return false;
+            }
+            if (temp.val() === "") {
+                messageBox.text("Enter the Email Address").show();
+                return false;
+            }
+            if (!regEx.test(temp.val())) {
+                messageBox.text("Enter a valid email address").show();
+                return false;
+            }
+            if (temp1.val() === "") {
+                messageBox.text("Enter the password").show();
+                return false;
+            }
+            if (!regEx1.test(temp1.val())) {
+                messageBox.text("Password should contain 8-20 characters, at least one uppercase letter, one lowercase letter, one digit, and one special character").show();
+                return false;
+            }
+            if (temp2.val() === "") {
+                messageBox.text("Enter the confirm password").show();
+                return false;
+            }
+            if (temp1.val() !== temp2.val()) {
+                messageBox.text("Passwords don't match").show();
+                return false;
+            } else {
+                messageBox.hide();
+                return true;
+            }
+        }
+
+        $(document).ready(function () {
+            $("#signInForm").submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+                if (f2()) {
+                    // Redirect if validation is successful
+                    window.location.href = "index.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

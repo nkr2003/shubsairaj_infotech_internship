@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find our store locations.">
+    <title>Store Locations - New Bharat Footwear</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #1e4063;
+            color: white;
+        }
+
+        .map-container {
+            height: 500px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                New Bharat Footwear
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="orders.html">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="wishlist.html">Wishlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="cart.html">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="index.html">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center mt-4">Our Store Locations</h2>
+        <p class="text-center">Find us at the locations below!</p>
+        
+        <!-- Google Map Embed -->
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+
+        <script>
+          function initMap() {
+            var mapOptions = {
+              zoom: 14,
+              center: { lat: -34.397, lng: 150.644 }, // Default center before geolocation
+            };
+
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(
+                function (position) {
+                  var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                  };
+
+                  map.setCenter(pos);
+
+                  var marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    title: "You are here!",
+                  });
+                },
+                function () {
+                  handleLocationError(true, map.getCenter());
+                }
+              );
+            } else {
+              // Browser doesn't support Geolocation
+              handleLocationError(false, map.getCenter());
+            }
+          }
+
+          function handleLocationError(browserHasGeolocation, pos) {
+            var errorMsg = browserHasGeolocation
+              ? "The Geolocation service failed."
+              : "Your browser doesn't support geolocation.";
+            alert(errorMsg);
+          }
+        </script>
+        <script
+          async
+          defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXD3PqUer75x7KqXZR8Xv9tdKIyQr6wO8&callback=initMap"
+        ></script>
+
+        <div class="text-center">
+            <h5>Contact Us:</h5>
+            <p>Email: info@newbharatfootwear.com</p>
+            <p>Phone: <a href="tel:0000000000" class="text-primary">0000000000</a></p>
+        </div>
+    </div>
+<div class="p-4"></div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz4fnFO9gybBZn5J2erMfMX6fYzg7BdomV27EKPF4l0eXjjkz5zs0ajpGc"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGuktpGsORN7LgfW4lAZGJerl4O3oBtKLDzZqqIVT8S4GFsyjH55z0I2Hrt"
+        crossorigin="anonymous"></script>
+    <script src="scripts.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
